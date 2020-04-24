@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gra_w_zycie
+{
+
+    class Program
+    {
+        public StanK[,] aktualnyStan;
+        private StanK[,] nastepnyStan;
+
+        public void Tablica()
+        {
+            aktualnyStan = new StanK[50, 50];
+            nastepnyStan = new StanK[50, 50];
+            
+            for(int i=0; i<50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                    aktualnyStan[i, j] = StanK.Dead;
+            }
+        }
+
+        public void aktualizujStan()
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                    var zyjacySasiedzi = getZyjacySasiedzi(i, j);
+                nastepnyStan[i, j] = getAktualnyStan(aktualnyStan[i, j], getZyjacySasiedzi);
+            }
+            aktualnyStan = nastepnyStan;
+            nastepnyStan = new StanK[50, 50];
+        }
+
+        private int getZyjacySasiedzi(int pozX, int pozY)
+        {
+            int zyjacySasiedzi = 0;
+            for(int i = -1; i<2; i++)
+                for(int j = -1; j<2; j++)
+                {
+                    if(i==0 && j == 0)
+                    {
+                        continue;
+                    }
+                    int sasiadX = pozX + i;
+                    int sasiadY = pozY + j;
+                    if(sasiadX >-1 && sasiadX <50 && sasiadY>-1 && sasiadY < 50)
+                    {
+                        if (aktualnyStan[sasiadX, sasiadY] == StanK.Alive)
+                            zyjacySasiedzi++;
+                    }
+                }
+            return zyjacySasiedzi;
+        }
+        
+        public static StanK GetNewState(StanK aktualnyStan, int zyjacSasiedzi)
+        {
+            switch (aktualnyStan)
+            {
+                case StanK.Alive:
+                    if (zyjacSasiedzi < 2 || zyjacSasiedzi > 3)
+                        return StanK.Dead;
+                    break;
+                case: StanK.Dead:
+                    if (zyjacSasiedzi == 3)
+                        return StanK.Alive;
+                    break;
+            }
+            return aktualnyStan;
+        }
+        
+        static void Main(string[] args)
+        {
+          
+        }
+
+    }
+
