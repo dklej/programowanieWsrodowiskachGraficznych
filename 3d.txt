@@ -23,11 +23,16 @@ namespace cudzeKlasy
 
         private void mojPanel1_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            
+        }
+
+        private void button1_Click(object sender, PaintEventArgs e)
+        {
+        
+        Graphics g = e.Graphics;
             Punkt obserwator = Punkt.RFiTetaToXYZ(r, fi, teta);    //konwersja sferycznych do kartezjanskich
             T3d projektor = new T3d(obserwator, mojPanel1.ClientRectangle);
-
-            Punkt[] p = { new Punkt(0, 0, 1),           //ostrosłup
+        Punkt[] p = { new Punkt(0, 0, 1),           //ostrosłup
                           new Punkt(1, 0, 0),
                           new Punkt(0, 1, 0),
                           new Punkt(-1, 0, 0),
@@ -47,6 +52,16 @@ namespace cudzeKlasy
             g.DrawLine(Pens.Yellow, ep[3], ep[0]);
             g.DrawLine(Pens.Yellow, ep[4], ep[0]);
 
+            mojPanel1.Refresh();
+        }
+
+        private void button2_Click(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Punkt obserwator = Punkt.RFiTetaToXYZ(r, fi, teta);    //konwersja sferycznych do kartezjanskich
+            T3d projektor = new T3d(obserwator, mojPanel1.ClientRectangle);
+
+            
 
             Punkt[] s = { new Punkt(0, 0, 0),           //szescian
                           new Punkt(0, 1, 0),
@@ -75,11 +90,22 @@ namespace cudzeKlasy
             g.DrawLine(Pens.Blue, sp[1], sp[5]);
             g.DrawLine(Pens.Blue, sp[2], sp[6]);
             g.DrawLine(Pens.Blue, sp[3], sp[7]);
+            
+            mojPanel1.Refresh();
+        }
 
-            Punkt[] h = { new Punkt(0, 0, -2),           //graniastoslup
-                          new Punkt(0, 1, -2),
-                          new Punkt(1, 1, -2),
-                          new Punkt(1, 0, -2),
+        private void button3_Click(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Punkt obserwator = Punkt.RFiTetaToXYZ(r, fi, teta);    //konwersja sferycznych do kartezjanskich
+            T3d projektor = new T3d(obserwator, mojPanel1.ClientRectangle);
+
+          
+
+            Punkt[] h = { new Punkt(0, 0, -1),           //graniastoslup
+                          new Punkt(0, 1, -1),
+                          new Punkt(1, 1, -1),
+                          new Punkt(1, 0, -1),
                           new Punkt(0, 0, 1),
                           new Punkt(0, 1, 1),
                           new Punkt(1, 1, 1),
@@ -103,25 +129,8 @@ namespace cudzeKlasy
             g.DrawLine(Pens.Blue, hp[1], hp[5]);
             g.DrawLine(Pens.Blue, hp[2], hp[6]);
             g.DrawLine(Pens.Blue, hp[3], hp[7]);
-
-
-
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
+            
+            mojPanel1.Refresh();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
