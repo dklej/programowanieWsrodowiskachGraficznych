@@ -1,0 +1,144 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using t3d;
+using punkt;
+
+namespace cudzeKlasy
+{
+    public partial class Form1 : Form
+    {
+        private double r = 10, fi = 45, teta = 60;      //pozycja obserwatora we współrzędnych sferycznych
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void mojPanel1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Punkt obserwator = Punkt.RFiTetaToXYZ(r, fi, teta);    //konwersja sferycznych do kartezjanskich
+            T3d projektor = new T3d(obserwator, mojPanel1.ClientRectangle);
+
+            Punkt[] p = { new Punkt(0, 0, 1),           //ostrosłup
+                          new Punkt(1, 0, 0),
+                          new Punkt(0, 1, 0),
+                          new Punkt(-1, 0, 0),
+                          new Punkt(0, -1, 0) };
+            Point[] ep = new Point[5];
+
+            for (int i = 0; i < p.Length; i++)          //konwersja punktów 3d na ekran
+                projektor.punkt_3d(out ep[i], p[i]);
+
+            g.DrawLine(Pens.Yellow, ep[1], ep[2]);    //podstawa ostrosłupa
+            g.DrawLine(Pens.Yellow, ep[2], ep[3]);
+            g.DrawLine(Pens.Yellow, ep[3], ep[4]);
+            g.DrawLine(Pens.Yellow, ep[4], ep[1]);
+
+            g.DrawLine(Pens.Yellow, ep[1], ep[0]);    //boki.
+            g.DrawLine(Pens.Yellow, ep[2], ep[0]);
+            g.DrawLine(Pens.Yellow, ep[3], ep[0]);
+            g.DrawLine(Pens.Yellow, ep[4], ep[0]);
+
+
+            Punkt[] s = { new Punkt(0, 0, 0),           //szescian
+                          new Punkt(0, 1, 0),
+                          new Punkt(1, 1, 0),
+                          new Punkt(1, 0, 0),
+                          new Punkt(0, 0, 1),           
+                          new Punkt(0, 1, 1),
+                          new Punkt(1, 1, 1),
+                          new Punkt(1, 0, 1)
+                        };
+            Point[] sp = new Point[8];
+            for (int i = 0; i < s.Length; i++)          //konwersja punktów 3d na ekran
+                projektor.punkt_3d(out sp[i], s[i]);
+
+            g.DrawLine(Pens.Red, sp[0], sp[1]);
+            g.DrawLine(Pens.Red, sp[1], sp[2]);
+            g.DrawLine(Pens.Red, sp[2], sp[3]);
+            g.DrawLine(Pens.Red, sp[3], sp[0]);
+
+            g.DrawLine(Pens.Yellow, sp[4], sp[5]);
+            g.DrawLine(Pens.Yellow, sp[5], sp[6]);
+            g.DrawLine(Pens.Yellow, sp[6], sp[7]);
+            g.DrawLine(Pens.Yellow, sp[7], sp[4]);
+
+            g.DrawLine(Pens.Blue, sp[0], sp[4]);
+            g.DrawLine(Pens.Blue, sp[1], sp[5]);
+            g.DrawLine(Pens.Blue, sp[2], sp[6]);
+            g.DrawLine(Pens.Blue, sp[3], sp[7]);
+
+            Punkt[] h = { new Punkt(0, 0, -2),           //graniastoslup
+                          new Punkt(0, 1, -2),
+                          new Punkt(1, 1, -2),
+                          new Punkt(1, 0, -2),
+                          new Punkt(0, 0, 1),
+                          new Punkt(0, 1, 1),
+                          new Punkt(1, 1, 1),
+                          new Punkt(1, 0, 1)
+                        };
+            Point[] hp = new Point[8];
+            for (int i = 0; i < h.Length; i++)          //konwersja punktów 3d na ekran
+                projektor.punkt_3d(out hp[i], h[i]);
+
+            g.DrawLine(Pens.Red, hp[0], hp[1]);
+            g.DrawLine(Pens.Red, hp[1], hp[2]);
+            g.DrawLine(Pens.Red, hp[2], hp[3]);
+            g.DrawLine(Pens.Red, hp[3], hp[0]);
+
+            g.DrawLine(Pens.Yellow, hp[4], hp[5]);
+            g.DrawLine(Pens.Yellow, hp[5], hp[6]);
+            g.DrawLine(Pens.Yellow, hp[6], hp[7]);
+            g.DrawLine(Pens.Yellow, hp[7], hp[4]);
+
+            g.DrawLine(Pens.Blue, hp[0], hp[4]);
+            g.DrawLine(Pens.Blue, hp[1], hp[5]);
+            g.DrawLine(Pens.Blue, hp[2], hp[6]);
+            g.DrawLine(Pens.Blue, hp[3], hp[7]);
+
+
+
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            fi += 1;
+            if (fi >= 360)
+                fi -= 360;
+            mojPanel1.Invalidate();
+        }
+
+        class MojPanel : Panel
+        {
+            public MojPanel()
+            {
+                BackColor = Color.Black;
+                DoubleBuffered = true;
+            }
+        }
+    }
+}
